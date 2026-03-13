@@ -276,18 +276,6 @@ body::before {
 }
 
 /* ---------- 选手卡片 ---------- */
-.player-id {
-    font-family: monospace;
-    background: #00000040;
-    display: inline-block;
-    padding: 0.2rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    color: #ff5e0d;
-    border: 1px solid #ff5e0d40;
-    margin-bottom: 0.8rem;
-}
-
 .player-name {
     font-size: 1.5rem;
     font-weight: 700;

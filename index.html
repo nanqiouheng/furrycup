@@ -3,83 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>new json 🐾 FURRY CUP · 福瑞杯</title>
-    <!-- 字体 -->
+    <title>FURRY CUP · 福瑞杯 · 电竞中心</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- 引入外部 CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- 头部：标题 + 长方形导航 -->
-        <div class="hero">
-            <h1>new json 🐾 FURRY CUP · 福瑞杯</h1>
-            <div class="nav-tabs">
-                <button class="nav-tab active" data-panel="home">主页</button>
-                <button class="nav-tab" data-panel="matches">赛事</button>
-                <button class="nav-tab" data-panel="power">实力排行</button>
-            </div>
-        </div>
-
-        <!-- 主页面板（简化版） -->
-        <div id="homePanel" class="panel active">
-            <div class="home-content">
-                <h2>欢迎来到福瑞杯</h2>
-                <p>福瑞杯是由同学们自发组织的《无畏契约》友谊赛，旨在享受游戏乐趣、增进友谊。首届比赛由「海神开剥了」与「雕长三万里」两支队伍角逐。</p>
-            </div>
-        </div>
-
-        <!-- 赛事面板（三栏布局） -->
-        <div id="matchesPanel" class="panel">
-            <div class="matches-grid">
-                <!-- 左侧：赛事列表 -->
-                <div class="tournament-list">
-                    <h3>🏆 赛事列表</h3>
-                    <ul class="tournament-items" id="tournamentList">
-                        <li class="tournament-item active">第一届福瑞杯</li>
-                        <!-- 后续动态添加 -->
-                    </ul>
-                </div>
-
-                <!-- 中间：赛程比分 -->
-                <div class="matches-center">
-                    <h3>📅 赛程 & 比分</h3>
-                    <div id="matchesCenterContent">
-                        <div class="loading">⏳ 加载赛程...</div>
+    <div class="site-wrapper">
+        <!-- 顶部导航栏 -->
+        <header class="main-header">
+            <div class="container">
+                <nav class="top-nav">
+                    <a href="#" class="logo">FURRY CUP</a>
+                    <div class="nav-links">
+                        <a href="#" class="active">所有赛事</a>
+                        <a href="#">前哨战</a>
+                        <a href="#">大师赛</a>
+                        <a href="#">冠军赛</a>
                     </div>
-                </div>
-
-                <!-- 右侧：战队实力排行（按胜场） -->
-                <div class="rankings-side">
-                    <h3>⚡ 战队实力榜</h3>
-                    <div id="rankingsSideContent">
-                        <div class="loading">⏳ 加载排行...</div>
+                    <div class="user-actions">
+                        <span class="icon">🔔</span>
+                        <span class="icon">👤</span>
                     </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- 主内容区：时间轴 + 赛程 + 排名 -->
+        <main class="main-content container">
+            <!-- 左侧时间轴 (Timeline) -->
+            <aside class="timeline-sidebar">
+                <div class="timeline-header">
+                    <h3>所有地区</h3>
+                    <span class="tournament-count">2项赛事</span>
                 </div>
-            </div>
-        </div>
+                <div class="timeline-stages" id="timelineStages">
+                    <!-- 动态通过JS渲染赛事阶段 -->
+                    <div class="loading">⏳ 加载阶段...</div>
+                </div>
+            </aside>
 
-        <!-- 实力排行面板 -->
-        <div id="powerPanel" class="panel">
-            <h2 style="margin-bottom: 1.5rem; color:#ffc285;">🏅 实力排行</h2>
-            <div class="power-grid" id="powerGrid">
-                <div class="loading">⏳ 加载排名...</div>
-            </div>
-        </div>
+            <!-- 中央赛程区 (Schedule) -->
+            <section class="schedule-area">
+                <div class="schedule-header">
+                    <h2>今天</h2>
+                    <span class="date-range">2026年3月14日</span>
+                </div>
+                <div id="matchesList" class="matches-list">
+                    <!-- 动态通过JS渲染比赛卡片 -->
+                    <div class="loading">⏳ 加载赛程...</div>
+                </div>
+            </section>
 
-        <!-- 队员详情模态框 -->
-        <div class="modal-overlay" id="playerModal">
-            <div class="modal">
-                <button class="modal-close">&times;</button>
-                <h3 id="modalTeamName">队伍队员</h3>
-                <div id="modalPlayerList" class="player-list"></div>
+            <!-- 右侧实力排名 (Power Rankings) -->
+            <aside class="rankings-sidebar">
+                <div class="rankings-header">
+                    <h3>全球实力排名</h3>
+                </div>
+                <div id="rankingsList" class="rankings-list">
+                    <!-- 动态通过JS渲染排名 -->
+                    <div class="loading">⏳ 加载排名...</div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- 底部信息（可选） -->
+        <footer class="main-footer">
+            <div class="container">
+                <p>© 2026 FURRY CUP · 同学自办赛事</p>
             </div>
+        </footer>
+    </div>
+
+    <!-- 队员详情模态框 (Modal) -->
+    <div class="modal-overlay" id="playerModal">
+        <div class="modal">
+            <button class="modal-close">&times;</button>
+            <h3 id="modalTeamName">队伍队员</h3>
+            <div id="modalPlayerList" class="player-grid"></div>
         </div>
     </div>
 
-    <!-- 引入外部 JavaScript（位于 data 文件夹） -->
     <script src="data/script.js"></script>
 </body>
 </html>

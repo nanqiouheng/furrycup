@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🐾 Furry Cup · 福瑞杯 · 官方赛事中心</title>
-    <!-- 引入现代字体：Inter 和 Space Grotesk -->
+    <!-- 现代字体 Inter 和 Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (免费图标库) -->
+    <!-- Font Awesome 6 图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ---------- 全局重置与变量 ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -53,7 +54,7 @@
             z-index: 2;
         }
 
-        /* 头部区域 */
+        /* ---------- 头部区域 ---------- */
         .hero {
             display: flex;
             flex-direction: column;
@@ -96,7 +97,7 @@
             font-weight: 500;
         }
 
-        /* 标签导航 */
+        /* ---------- 标签导航 ---------- */
         .tab-nav {
             display: flex;
             justify-content: center;
@@ -145,7 +146,7 @@
             font-weight: 700;
         }
 
-        /* 主要内容卡片面板 */
+        /* ---------- 主要内容面板 ---------- */
         .panel {
             background: rgba(18, 23, 34, 0.8);
             backdrop-filter: blur(12px);
@@ -183,7 +184,7 @@
             gap: 1.8rem;
         }
 
-        /* 卡片通用设计 */
+        /* ---------- 卡片通用样式 ---------- */
         .player-card, .team-card, .match-card {
             background: rgba(12, 17, 27, 0.7);
             backdrop-filter: blur(6px);
@@ -220,6 +221,7 @@
             box-shadow: 0 25px 40px -10px #ffb34730;
         }
 
+        /* 选手卡片 */
         .player-id {
             font-family: 'Space Grotesk', monospace;
             background: #00000030;
@@ -284,6 +286,7 @@
             backdrop-filter: blur(4px);
         }
 
+        /* 战队卡片 */
         .team-header {
             display: flex;
             align-items: center;
@@ -324,6 +327,7 @@
             font-size: 0.9rem;
         }
 
+        /* 比赛卡片 */
         .match-teams {
             font-size: 1.5rem;
             font-weight: 700;
@@ -431,14 +435,12 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* 响应式微调 */
+        /* 响应式调整 */
         @media (max-width: 600px) {
             .container { padding: 1.5rem; }
             .panel { padding: 1.8rem; }
             .hero h1 { font-size: 2.8rem; }
         }
-
-        /* 鼠标移动光效 (通过JS更新CSS变量) */
     </style>
 </head>
 <body>
@@ -488,7 +490,7 @@
 
     <script>
         (function() {
-            // 配置：数据文件路径（相对于网站根目录）
+            // ---------- 配置：数据文件路径（相对于网站根目录）----------
             const DATA_PATH = './data/';  // 确保 data 文件夹和 index.html 同级
 
             // DOM 元素
@@ -508,7 +510,7 @@
             let teamsData = [];
             let matchesData = [];
 
-            // 获取本地 JSON
+            // 获取本地 JSON 文件
             async function fetchLocalJSON(filename) {
                 const url = `${DATA_PATH}${filename}`;
                 const res = await fetch(url);
@@ -595,7 +597,7 @@
                 attachMouseMoveEffect();
             }
 
-            // 渲染比赛（包含时间）
+            // 渲染比赛
             function renderMatches(matches, teams) {
                 if (!matches || !matches.length) {
                     matchesContent.innerHTML = '<div class="error">暂无比赛数据</div>';
@@ -633,7 +635,7 @@
                 attachMouseMoveEffect();
             }
 
-            // 鼠标移动光效 (让卡片上的径向渐变跟随鼠标)
+            // 鼠标移动光效
             function attachMouseMoveEffect() {
                 document.querySelectorAll('[data-mouse-move]').forEach(card => {
                     card.addEventListener('mousemove', (e) => {
@@ -671,7 +673,7 @@
             tabTeams.addEventListener('click', () => showPanel('teams'));
             tabMatches.addEventListener('click', () => showPanel('matches'));
 
-            // 启动加载
+            // 启动
             loadAllData();
         })();
     </script>

@@ -3,168 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐾 FURRY CUP · 福瑞杯 · 官方赛事中心</title>
-
-    <!-- 网站图标（请替换为你的 Raw 链接） -->
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/你的用户名/furrycup/main/furrycup.ico">
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/你的用户名/furrycup/main/furrycup.ico">
-
-    <!-- 引入外部 CSS（如果你使用单独文件） -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- 或者直接将 CSS 内嵌于此（取消注释下一行并粘贴上面 CSS） -->
-    <!-- <style> ... 粘贴上面完整 CSS ... </style> -->
-
-    <!-- 字体与图标（已在 CSS 中引用，但为了保险可保留） -->
+    <title>🐾 FURRY CUP · 福瑞杯</title>
+    <!-- 字体（无多余图标库） -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== 全局样式 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0c12;
+            color: #f0f4fa;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* 头部 */
+        .hero {
+            margin-bottom: 2rem;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffc285, #ff5e0d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        .hero .subhead {
+            color: #a0b3d9;
+            font-size: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .hero .subhead span {
+            background: rgba(255,94,13,0.1);
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,94,13,0.3);
+        }
+
+        /* ===== 双栏布局 ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* ---------- 左侧：比赛时间轴 ---------- */
+        .matches-timeline {
+            background: rgba(12,17,27,0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 1.8rem;
+            border: 1px solid rgba(255,94,13,0.2);
+        }
+        .matches-timeline h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffc285;
+        }
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .region-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .region-tab {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,94,13,0.2);
+            color: #cdd9ff;
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .region-tab.active {
+            background: #ff5e0d;
+            color: #0a0c12;
+            border-color: #ffc285;
+        }
+
+        /* 日期分组 */
+        .date-group {
+            margin-bottom: 2rem;
+        }
+        .date-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffc285;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+            border-left: 4px solid #ff5e0d;
+        }
+        .match-item {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.2s;
+        }
+        .match-item:hover {
+            border-color: #ff5e0d40;
+            transform: translateX(4px);
+        }
+        .match-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .match-teams {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .match-score {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ff5e0d;
+        }
+        .match-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+            color: #a0b3d9;
+            font-size: 0.9rem;
+        }
+        .match-status {
+            background: rgba(255,255,255,0.05);
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+        }
+        .status-completed { color: #9eff9e; }
+        .status-scheduled { color: #ffd966; }
+
+        /* ---------- 右侧：战队排名 ---------- */
+        .rankings-panel {
+            background: rgba(12,17,27,0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,94,13,0.2);
+            position: sticky;
+            top: 2rem;
+        }
+        .rankings-panel h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffc285;
+        }
+        .ranking-list {
+            list-style: none;
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+        .rank-number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ff5e0d;
+            min-width: 35px;
+        }
+        .team-info {
+            flex: 1;
+        }
+        .team-name {
+            font-weight: 600;
+        }
+        .team-stats {
+            font-size: 0.85rem;
+            color: #a0b3d9;
+        }
+        .team-points {
+            font-weight: 700;
+            color: #ffc285;
+        }
+
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #a0b3d9;
+        }
+        .loading i {
+            animation: spin 1s infinite linear;
+            color: #ff5e0d;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* 错误提示 */
+        .error {
+            background: #2a1a1a;
+            color: #ffa7a7;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #ff5e5e;
+        }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .rankings-panel {
+                position: static;
+            }
+        }
+        @media (max-width: 600px) {
+            .match-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .match-meta {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="hero">
-            <h1>🐾 FURRY CUP</h1>
+            <h1>🐾 FURRY CUP · 福瑞杯</h1>
             <div class="subhead">
-                <span><i class="fa-regular fa-calendar"></i> 福瑞杯 · 创立于2026</span>
-                <span><i class="fa-regular fa-users"></i> 海神开剥了 vs 雕长三万里</span>
+                <span>海神開剝了</span>
+                <span>雕長三萬里</span>
+                <span>創立於2026</span>
             </div>
         </div>
 
-        <div class="tab-nav">
-            <button class="tab-btn active" id="tabPlayers"><i class="fas fa-user-astronaut"></i> 选手数据</button>
-            <button class="tab-btn" id="tabTeams"><i class="fas fa-shield-halved"></i> 战队信息</button>
-            <button class="tab-btn" id="tabMatches"><i class="fas fa-trophy"></i> 比赛比分</button>
-        </div>
+        <!-- 双栏主布局 -->
+        <div class="main-grid">
+            <!-- 左侧：比赛时间轴 -->
+            <div class="matches-timeline">
+                <div class="timeline-header">
+                    <h2>📅 賽程</h2>
+                    <div class="region-tabs">
+                        <span class="region-tab active">所有賽事</span>
+                        <span class="region-tab">海神開剝了</span>
+                        <span class="region-tab">雕長三萬里</span>
+                    </div>
+                </div>
+                <div id="matchesTimelineContent">
+                    <div class="loading">⏳ 載入賽程...</div>
+                </div>
+            </div>
 
-        <!-- 选手面板 -->
-        <div id="playersPanel" class="panel">
-            <h2><i class="fas fa-user-astronaut"></i> 选手数据 · 击杀/死亡/助攻</h2>
-            <div id="leaderboardContainer" class="leaderboard"><!-- 排行榜动态渲染 --></div>
-            <div id="playersContent" class="grid"><div class="loading"><i class="fas fa-spinner"></i> 加载选手数据中...</div></div>
-        </div>
-
-        <!-- 战队面板 -->
-        <div id="teamsPanel" class="panel" style="display: none;">
-            <h2><i class="fas fa-shield-halved"></i> 参赛战队</h2>
-            <div id="teamsContent" class="grid"><div class="loading"><i class="fas fa-spinner"></i> 加载战队数据中...</div></div>
-        </div>
-
-        <!-- 比赛面板 -->
-        <div id="matchesPanel" class="panel" style="display: none;">
-            <h2><i class="fas fa-trophy"></i> 比赛赛程 & 比分</h2>
-            <div id="matchesContent" class="grid"><div class="loading"><i class="fas fa-spinner"></i> 加载比赛数据中...</div></div>
-        </div>
-
-        <div class="footer">
-            <i class="fa-regular fa-heart"></i> 数据托管于 GitHub · 福瑞杯专属 · 手动更新 <i class="fa-regular fa-heart"></i>
+            <!-- 右侧：战队排名 -->
+            <div class="rankings-panel">
+                <h2>🏆 戰隊實力榜</h2>
+                <div id="rankingsContent">
+                    <div class="loading">⏳ 載入排名...</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         (function() {
-            // ---------- 配置：数据文件路径 ----------
-            const DATA_PATH = './data/';   // 确保 data 文件夹与 index.html 同级
+            const DATA_PATH = './data/';  // 确保 data 文件夹存在
 
-            // DOM 元素
-            const playersPanel = document.getElementById('playersPanel');
-            const teamsPanel = document.getElementById('teamsPanel');
-            const matchesPanel = document.getElementById('matchesPanel');
-            const playersContent = document.getElementById('playersContent');
-            const teamsContent = document.getElementById('teamsContent');
-            const matchesContent = document.getElementById('matchesContent');
-            const leaderboardContainer = document.getElementById('leaderboardContainer');
+            const matchesDiv = document.getElementById('matchesTimelineContent');
+            const rankingsDiv = document.getElementById('rankingsContent');
 
-            const tabPlayers = document.getElementById('tabPlayers');
-            const tabTeams = document.getElementById('tabTeams');
-            const tabMatches = document.getElementById('tabMatches');
-
-            let playersData = [];
-            let teamsData = [];
-            let matchesData = [];
-
-            async function fetchLocalJSON(filename) {
-                const url = DATA_PATH + filename;
-                const res = await fetch(url);
-                if (!res.ok) throw new Error(`HTTP ${res.status} : 无法加载 ${filename}`);
-                return await res.json();
+            async function fetchJSON(file) {
+                const res = await fetch(DATA_PATH + file);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
             }
 
-            // ---------- 排行榜（按击杀数取前5）----------
-            function renderLeaderboard(players) {
-                if (!players || players.length === 0) return '';
-                const sorted = [...players].sort((a,b) => (b.kills||0) - (a.kills||0)).slice(0,5);
-                let html = '<h3><i class="fas fa-crown"></i> 击杀榜 TOP5</h3><div class="leaderboard-grid">';
-                sorted.forEach((p, idx) => {
-                    const kd = p.deaths ? (p.kills / p.deaths).toFixed(2) : p.kills.toFixed(2);
-                    html += `
-                        <div class="leaderboard-card">
-                            <div class="leaderboard-rank">#${idx+1}</div>
-                            <div class="leaderboard-info">
-                                <div class="leaderboard-name">${p.name || '无名'}</div>
-                                <div class="leaderboard-stats">
-                                    <span><i class="fas fa-skull"></i> ${p.kills||0}</span>
-                                    <span><i class="fas fa-bolt"></i> ${kd}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                html += '</div>';
-                return html;
-            }
+            // 计算战队统计数据（按总击杀排序）
+            function calculateTeamStats(players, teams) {
+                const stats = {};
+                teams.forEach(t => { stats[t.id] = { name: t.name, kills: 0, deaths: 0, matches: 0 }; });
 
-            // ---------- 渲染选手卡片 ----------
-            function renderPlayers(players) {
-                if (!players || !players.length) return '<div class="error">暂无选手数据</div>';
-                let html = '';
                 players.forEach(p => {
-                    const kills = p.kills || 0;
-                    const deaths = p.deaths || 0;
-                    const assists = p.assists || 0;
-                    const kd = deaths === 0 ? kills.toFixed(2) : (kills / deaths).toFixed(2);
-                    html += `
-                        <div class="player-card">
-                            <div class="player-name">${p.name || '无名'}</div>
-                            <div class="stats">
-                                <div class="stat-item"><span class="stat-label">击杀</span><div class="stat-value">${kills}</div></div>
-                                <div class="stat-item"><span class="stat-label">死亡</span><div class="stat-value">${deaths}</div></div>
-                                <div class="stat-item"><span class="stat-label">助攻</span><div class="stat-value">${assists}</div></div>
-                            </div>
-                            <div class="kd-badge"><i class="fas fa-bolt"></i> KD: ${kd}</div>
-                        </div>
-                    `;
+                    // 根据选手的 team 字段（中文名）匹配 team id
+                    let teamId = null;
+                    if (p.team === '海神開剝了' || p.team === '海神开剥了') teamId = 'team1';
+                    else if (p.team === '雕長三萬里' || p.team === '雕长三万里') teamId = 'team2';
+                    if (teamId && stats[teamId]) {
+                        stats[teamId].kills += p.kills || 0;
+                        stats[teamId].deaths += p.deaths || 0;
+                    }
                 });
-                return html;
+
+                // 从比赛数据中统计实际比赛场次（可选，这里简化为固定值）
+                return Object.values(stats).map(s => ({
+                    ...s,
+                    kd: s.deaths ? (s.kills / s.deaths).toFixed(2) : s.kills.toFixed(2),
+                    matches: 2  // 示例，你可以根据实际情况修改
+                })).sort((a, b) => b.kills - a.kills);
             }
 
-            // ---------- 渲染战队卡片（基于 teams.json 和 players.json）----------
-            function renderTeams(teams, players) {
-                if (!teams || !teams.length) return '<div class="error">暂无战队数据</div>';
-                let html = '';
-                teams.forEach(t => {
-                    // 从 players 中筛选出属于该战队的选手（根据 team 字段匹配战队名）
-                    const teamPlayers = players.filter(p => p.team === t.name);
-                    const memberNames = teamPlayers.map(p => p.name);
-                    html += `
-                        <div class="team-card">
-                            <div class="team-header"><h3>${t.name || '未知战队'}</h3></div>
-                            <div style="opacity:0.6; font-size:0.9rem; margin-bottom:1rem;"><i class="fas fa-tag"></i> ${t.id}</div>
-                            <div class="team-members">
-                                <li style="list-style:none; color:#ff5e0d;"><i class="fas fa-users"></i> 队员列表</li>
-                                ${memberNames.length ? memberNames.map(name => `<li><i class="fas fa-paw"></i> ${name}</li>`).join('') : '<li>暂无队员</li>'}
-                            </div>
-                        </div>
-                    `;
-                });
-                return html;
-            }
+            // 渲染左侧比赛时间轴
+            function renderMatchesTimeline(matches, teams) {
+                if (!matches || matches.length === 0) return '<div class="error">暫無賽程</div>';
 
-            // ---------- 渲染比赛（按日期分组）----------
-            function renderMatches(matches, teams) {
-                if (!matches || !matches.length) return '<div class="error">暂无比赛数据</div>';
-
-                // 获取队名辅助函数
                 const getTeamName = (id) => {
                     const t = teams.find(t => t.id === id);
                     return t ? t.name : id;
@@ -178,40 +350,32 @@
                     groups[date].push(m);
                 });
 
-                // 排序日期（最近的在前）
-                const sortedDates = Object.keys(groups).sort((a,b) => new Date(b) - new Date(a));
+                // 日期排序（升序，近的在前可根据需要调整）
+                const sortedDates = Object.keys(groups).sort((a, b) => new Date(a) - new Date(b));
 
                 let html = '';
                 sortedDates.forEach(date => {
-                    const isToday = date === new Date().toISOString().slice(0,10);
-                    const isTomorrow = new Date(date) - new Date() > 0 && new Date(date) - new Date() < 86400000*2;
-                    let dateLabel = date;
-                    if (isToday) dateLabel = '今天';
-                    else if (isTomorrow) dateLabel = '明天';
-
-                    html += `<div class="match-date-group"><div class="match-date-header"><i class="fa-regular fa-calendar"></i> ${dateLabel}</div>`;
-
+                    html += `<div class="date-group"><div class="date-header">${date}</div>`;
                     groups[date].forEach(m => {
-                        const teamAName = getTeamName(m.teamA?.id);
-                        const teamBName = getTeamName(m.teamB?.id);
+                        const teamA = getTeamName(m.teamA?.id);
+                        const teamB = getTeamName(m.teamB?.id);
                         const scoreA = m.teamA?.score ?? 0;
                         const scoreB = m.teamB?.score ?? 0;
-                        const statusClass = m.status === 'completed' ? 'status-completed' : (m.status === 'scheduled' ? 'status-scheduled' : '');
-                        const statusText = m.status === 'completed' ? '已结束' : (m.status === 'scheduled' ? '未开始' : m.status);
-                        const timeStr = m.time ? `<i class="fa-regular fa-clock"></i> ${m.time}` : '';
+                        const statusClass = m.status === 'completed' ? 'status-completed' : 'status-scheduled';
+                        const statusText = m.status === 'completed' ? '已結束' : '未開始';
+                        const timeStr = m.time ? `🕒 ${m.time}` : '';
 
                         html += `
-                            <div class="match-card">
-                                <div class="match-teams">
-                                    <span>${teamAName}</span>
-                                    <span class="score">${scoreA} : ${scoreB}</span>
-                                    <span>${teamBName}</span>
+                            <div class="match-item">
+                                <div class="match-row">
+                                    <span class="match-teams">${teamA} vs ${teamB}</span>
+                                    <span class="match-score">${scoreA}:${scoreB}</span>
                                 </div>
-                                <div class="match-footer">
+                                <div class="match-meta">
                                     <span class="match-status ${statusClass}">${statusText}</span>
                                     <span>${timeStr}</span>
+                                    ${m.maps && m.maps.length ? `<span>🗺️ ${m.maps.join(', ')}</span>` : ''}
                                 </div>
-                                ${m.maps && m.maps.length ? `<div style="margin-top:0.8rem; opacity:0.7;"><i class="fa-regular fa-map"></i> ${m.maps.join(' · ')}</div>` : ''}
                             </div>
                         `;
                     });
@@ -220,63 +384,45 @@
                 return html;
             }
 
-            // ---------- 加载所有数据 ----------
-            async function loadAllData() {
+            // 渲染右侧战队排名
+            function renderRankings(teamStats) {
+                if (!teamStats.length) return '<div class="error">暫無數據</div>';
+                let html = '<ol class="ranking-list">';
+                teamStats.forEach((t, idx) => {
+                    html += `
+                        <li class="ranking-item">
+                            <span class="rank-number">#${idx+1}</span>
+                            <div class="team-info">
+                                <div class="team-name">${t.name}</div>
+                                <div class="team-stats">${t.matches} 賽 · 總擊殺 ${t.kills}</div>
+                            </div>
+                            <span class="team-points">KD ${t.kd}</span>
+                        </li>
+                    `;
+                });
+                html += '</ol>';
+                return html;
+            }
+
+            async function loadData() {
                 try {
                     const [players, teams, matches] = await Promise.all([
-                        fetchLocalJSON('players.json'),
-                        fetchLocalJSON('teams.json'),
-                        fetchLocalJSON('matches.json')
+                        fetchJSON('players.json'),
+                        fetchJSON('teams.json'),
+                        fetchJSON('matches.json')
                     ]);
-                    playersData = players;
-                    teamsData = teams;
-                    matchesData = matches;
 
-                    // 渲染选手面板（排行榜 + 卡片）
-                    leaderboardContainer.innerHTML = renderLeaderboard(playersData);
-                    playersContent.innerHTML = renderPlayers(playersData);
-
-                    // 渲染战队面板
-                    teamsContent.innerHTML = renderTeams(teamsData, playersData);
-
-                    // 渲染比赛面板
-                    matchesContent.innerHTML = renderMatches(matchesData, teamsData);
-                } catch (error) {
-                    console.error(error);
-                    const errHtml = `<div class="error"><i class="fas fa-exclamation-triangle"></i> 加载失败: ${error.message}</div>`;
-                    playersContent.innerHTML = errHtml;
-                    teamsContent.innerHTML = errHtml;
-                    matchesContent.innerHTML = errHtml;
+                    const teamStats = calculateTeamStats(players, teams);
+                    matchesDiv.innerHTML = renderMatchesTimeline(matches, teams);
+                    rankingsDiv.innerHTML = renderRankings(teamStats);
+                } catch (e) {
+                    console.error(e);
+                    matchesDiv.innerHTML = `<div class="error">載入失敗: ${e.message}</div>`;
+                    rankingsDiv.innerHTML = `<div class="error">載入失敗</div>`;
                 }
             }
 
-            // ---------- 标签切换 ----------
-            function showPanel(name) {
-                playersPanel.style.display = 'none';
-                teamsPanel.style.display = 'none';
-                matchesPanel.style.display = 'none';
-                tabPlayers.classList.remove('active');
-                tabTeams.classList.remove('active');
-                tabMatches.classList.remove('active');
-
-                if (name === 'players') {
-                    playersPanel.style.display = 'block';
-                    tabPlayers.classList.add('active');
-                } else if (name === 'teams') {
-                    teamsPanel.style.display = 'block';
-                    tabTeams.classList.add('active');
-                } else if (name === 'matches') {
-                    matchesPanel.style.display = 'block';
-                    tabMatches.classList.add('active');
-                }
-            }
-
-            tabPlayers.addEventListener('click', () => showPanel('players'));
-            tabTeams.addEventListener('click', () => showPanel('teams'));
-            tabMatches.addEventListener('click', () => showPanel('matches'));
-
-            // 启动
-            loadAllData();
+            loadData();
         })();
     </script>
 </body>

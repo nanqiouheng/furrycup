@@ -1,17 +1,10 @@
 (function() {
-    const DATA_PATH = './data/';  // 确保 data 文件夹存在
+    const DATA_PATH = './data/';
 
-    // 获取DOM元素
-    const homePanel = document.getElementById('homePanel');
-    const matchesPanel = document.getElementById('matchesPanel');
-    const powerPanel = document.getElementById('powerPanel');
-    const navTabs = document.querySelectorAll('.nav-tab');
-
-    const tournamentList = document.getElementById('tournamentList');
-    const matchesCenter = document.getElementById('matchesCenterContent');
-    const rankingsSide = document.getElementById('rankingsSideContent');
-    const powerGrid = document.getElementById('powerGrid');
-
+    // DOM 元素
+    const timelineDiv = document.getElementById('timelineStages');
+    const matchesDiv = document.getElementById('matchesList');
+    const rankingsDiv = document.getElementById('rankingsList');
     const modal = document.getElementById('playerModal');
     const modalClose = modal.querySelector('.modal-close');
     const modalTeamName = document.getElementById('modalTeamName');
@@ -22,93 +15,58 @@
     let teamsData = [];
     let matchesData = [];
 
-    // 当前选中的赛事（默认第一届）
-    let currentTournament = '第一届福瑞杯';
-
-    // 导航切换
-    navTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            navTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            const panelId = tab.dataset.panel;
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.getElementById(panelId + 'Panel').classList.add('active');
-        });
-    });
-
     // 关闭模态框
-    modalClose.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.style.display = 'none';
-    });
+    modalClose.addEventListener('click', () => modal.style.display = 'none');
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
 
-    // 加载数据
     async function fetchJSON(file) {
         const res = await fetch(DATA_PATH + file);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
     }
 
-    // 计算战队胜场（从比赛数据）
-    function calculateTeamWins(matches) {
-        const wins = {};
-        teamsData.forEach(t => wins[t.id] = 0);
-        matches.forEach(m => {
-            if (m.status === 'completed') {
-                if (m.teamA.score > m.teamB.score) wins[m.teamA.id] += 1;
-                else if (m.teamB.score > m.teamA.score) wins[m.teamB.id] += 1;
-            }
-        });
-        return wins;
-    }
-
-    // 计算战队总胜/负场（用于实力排行）
+    // 计算战队记录
     function calculateTeamRecords(matches) {
         const records = {};
         teamsData.forEach(t => records[t.id] = { wins: 0, losses: 0 });
         matches.forEach(m => {
             if (m.status === 'completed') {
                 if (m.teamA.score > m.teamB.score) {
-                    records[m.teamA.id].wins += 1;
-                    records[m.teamB.id].losses += 1;
+                    records[m.teamA.id].wins++;
+                    records[m.teamB.id].losses++;
                 } else if (m.teamB.score > m.teamA.score) {
-                    records[m.teamB.id].wins += 1;
-                    records[m.teamA.id].losses += 1;
+                    records[m.teamB.id].wins++;
+                    records[m.teamA.id].losses++;
                 }
             }
         });
         return records;
     }
 
-    // 渲染左侧赛事列表（从matches.json中提取唯一的tournament字段）
-    function renderTournamentList() {
-        const tournaments = [...new Set(matchesData.map(m => m.tournament).filter(Boolean))];
-        if (tournaments.length === 0) tournaments.push('第一届福瑞杯'); // 默认
+    // 渲染左侧时间轴（从赛事阶段数据）
+    function renderTimeline() {
+        // 示例阶段数据，可根据实际赛事从matches.json提取
+        const stages = [
+            { name: '所有地区前哨战', date: '1月15日 - 2月15日', active: true },
+            { name: 'Masters Santiago', date: '2月28日 - 3月16日', active: false },
+            { name: '所有地区第一阶段', date: '4月1日 - 5月24日', active: false }
+        ];
         let html = '';
-        tournaments.forEach(t => {
-            const activeClass = t === currentTournament ? 'active' : '';
-            html += `<li class="tournament-item ${activeClass}" data-tournament="${t}">${t}</li>`;
+        stages.forEach((s, idx) => {
+            html += `
+                <div class="stage-item ${s.active ? 'active' : ''}">
+                    <div class="stage-name">${s.name}</div>
+                    <div class="stage-date">${s.date}</div>
+                </div>
+            `;
         });
-        tournamentList.innerHTML = html;
-
-        // 添加点击事件
-        document.querySelectorAll('.tournament-item').forEach(item => {
-            item.addEventListener('click', () => {
-                document.querySelectorAll('.tournament-item').forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
-                currentTournament = item.dataset.tournament;
-                renderMatchesCenter();
-            });
-        });
+        timelineDiv.innerHTML = html;
     }
 
-    // 渲染中间赛程（按当前赛事筛选）
-    function renderMatchesCenter() {
-        const filtered = matchesData.filter(m => m.tournament === currentTournament);
-        if (!filtered.length) {
-            matchesCenter.innerHTML = '<div class="error">暂无赛程</div>';
+    // 渲染中央赛程
+    function renderMatches() {
+        if (!matchesData.length) {
+            matchesDiv.innerHTML = '<div class="error">暂无赛程</div>';
             return;
         }
 
@@ -117,92 +75,74 @@
             return t ? t.name : id;
         };
 
-        // 按日期分组
-        const groups = {};
-        filtered.forEach(m => {
-            const date = m.date || '待定';
-            if (!groups[date]) groups[date] = [];
-            groups[date].push(m);
-        });
-        const sortedDates = Object.keys(groups).sort((a, b) => new Date(a) - new Date(b));
-
         let html = '';
-        sortedDates.forEach(date => {
-            html += `<div style="margin-bottom:1.5rem;"><div class="date-header">${date}</div>`;
-            groups[date].forEach(m => {
-                const teamA = getTeamName(m.teamA.id);
-                const teamB = getTeamName(m.teamB.id);
-                const scoreA = m.teamA.score ?? 0;
-                const scoreB = m.teamB.score ?? 0;
-                const statusClass = m.status === 'completed' ? 'status-completed' : 'status-scheduled';
-                const statusText = m.status === 'completed' ? '已结束' : '未开始';
-                const timeStr = m.time ? `🕒 ${m.time}` : '';
+        // 按日期分组，只显示今天及之后的比赛
+        const today = new Date().toISOString().slice(0,10);
+        const upcoming = matchesData.filter(m => m.date >= today).sort((a,b) => a.date.localeCompare(b.date));
 
-                html += `
-                    <div class="match-item">
-                        <div class="match-row">
-                            <span class="match-teams">${teamA} vs ${teamB}</span>
-                            <span class="match-score">${scoreA}:${scoreB}</span>
+        upcoming.forEach(m => {
+            const teamA = getTeamName(m.teamA.id);
+            const teamB = getTeamName(m.teamB.id);
+            const scoreA = m.teamA.score ?? 0;
+            const scoreB = m.teamB.score ?? 0;
+            const statusClass = m.status === 'completed' ? 'status-completed' : 'status-scheduled';
+            const statusText = m.status === 'completed' ? '已结束' : '未开始';
+            const timeStr = m.time ? `🕒 ${m.time}` : '';
+
+            html += `
+                <div class="match-card">
+                    <div class="match-header">
+                        <span class="match-series">VALORANT大师赛 • 瑞士制循环赛</span>
+                        <span class="match-status ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <span class="team-name">${teamA}</span>
                         </div>
-                        <div class="match-meta">
-                            <span class="match-status ${statusClass}">${statusText}</span>
-                            <span>${timeStr}</span>
-                            ${m.maps ? `<span>🗺️ ${m.maps.join(', ')}</span>` : ''}
+                        <span class="score">${scoreA} : ${scoreB}</span>
+                        <div class="team">
+                            <span class="team-name">${teamB}</span>
                         </div>
                     </div>
-                `;
-            });
-            html += '</div>';
-        });
-        matchesCenter.innerHTML = html;
-    }
-
-    // 渲染右侧战队实力榜（按胜场排序）
-    function renderRankingsSide() {
-        const wins = calculateTeamWins(matchesData);
-        const sorted = teamsData.map(t => ({ ...t, wins: wins[t.id] }))
-            .sort((a, b) => b.wins - a.wins);
-
-        let html = '<ol class="ranking-list">';
-        sorted.forEach((t, idx) => {
-            html += `
-                <li class="ranking-item">
-                    <span class="rank-number">#${idx + 1}</span>
-                    <div class="team-info">
-                        <div class="team-name">${t.name}</div>
-                        <div class="team-wins">胜场 <span>${t.wins}</span></div>
-                    </div>
-                </li>
-            `;
-        });
-        html += '</ol>';
-        rankingsSide.innerHTML = html;
-    }
-
-    // 渲染实力排行页面（战队卡片）
-    function renderPowerRankings() {
-        const records = calculateTeamRecords(matchesData);
-        let html = '';
-        teamsData.forEach(t => {
-            const rec = records[t.id] || { wins: 0, losses: 0 };
-            html += `
-                <div class="team-power-card" data-team-id="${t.id}">
-                    <div class="team-power-header">
-                        <span class="team-power-name">${t.name}</span>
-                        <span class="team-power-record">${rec.wins}胜 - ${rec.losses}负</span>
-                    </div>
-                    <div class="team-power-stats">
-                        <span>胜率: ${rec.wins + rec.losses ? ((rec.wins / (rec.wins + rec.losses)) * 100).toFixed(1) : 0}%</span>
+                    <div class="match-footer">
+                        <span>📅 ${m.date}</span>
+                        <span>${timeStr}</span>
+                        ${m.maps ? `<span>🗺️ ${m.maps.join(', ')}</span>` : ''}
                     </div>
                 </div>
             `;
         });
-        powerGrid.innerHTML = html;
+        matchesDiv.innerHTML = html || '<div class="error">暂无近期比赛</div>';
+    }
 
-        // 为每个卡片添加点击事件显示队员
-        document.querySelectorAll('.team-power-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const teamId = card.dataset.teamId;
+    // 渲染右侧排名
+    function renderRankings() {
+        const records = calculateTeamRecords(matchesData);
+        const sorted = teamsData.map(t => ({
+            ...t,
+            wins: records[t.id]?.wins || 0,
+            losses: records[t.id]?.losses || 0
+        })).sort((a, b) => b.wins - a.wins);
+
+        let html = '';
+        sorted.forEach((t, idx) => {
+            html += `
+                <div class="ranking-item" data-team-id="${t.id}">
+                    <span class="rank-number">#${idx+1}</span>
+                    <div class="rank-info">
+                        <div class="rank-name">${t.name}</div>
+                        <div class="rank-stats">${t.wins}胜 ${t.losses}负</div>
+                    </div>
+                    <span class="rank-record">${((t.wins/(t.wins+t.losses||1))*100).toFixed(0)}%</span>
+                </div>
+            `;
+        });
+        rankingsDiv.innerHTML = html;
+
+        // 点击排名显示队员
+        document.querySelectorAll('.ranking-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const teamId = item.dataset.teamId;
                 const team = teamsData.find(t => t.id === teamId);
                 const teamPlayers = playersData.filter(p => p.team === team.name);
                 modalTeamName.innerText = team.name + ' 队员';
@@ -219,14 +159,12 @@
                         </div>
                     `;
                 });
-                if (!playerHtml) playerHtml = '<div style="color:#aaa;">暂无队员数据</div>';
-                modalPlayerList.innerHTML = playerHtml;
+                modalPlayerList.innerHTML = playerHtml || '<div style="color:#aaa;">暂无队员数据</div>';
                 modal.style.display = 'flex';
             });
         });
     }
 
-    // 加载所有数据
     async function loadAll() {
         try {
             [playersData, teamsData, matchesData] = await Promise.all([
@@ -235,19 +173,13 @@
                 fetchJSON('matches.json')
             ]);
 
-            // 渲染赛事面板
-            renderTournamentList();
-            renderMatchesCenter();
-            renderRankingsSide();
-
-            // 渲染实力排行
-            renderPowerRankings();
+            renderTimeline();
+            renderMatches();
+            renderRankings();
         } catch (e) {
-            console.error(e);
             const errMsg = `<div class="error">加载失败: ${e.message}</div>`;
-            matchesCenter.innerHTML = errMsg;
-            rankingsSide.innerHTML = errMsg;
-            powerGrid.innerHTML = errMsg;
+            matchesDiv.innerHTML = errMsg;
+            rankingsDiv.innerHTML = errMsg;
         }
     }
 

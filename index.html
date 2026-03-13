@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 Furry Cup · 福瑞杯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #1a1e2f 0%, #232838 100%);
+            color: #e9f1fc;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 头部 */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffe77a, #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255, 180, 70, 0.3);
+        }
+
+        .header .badge {
+            background: #2f374e;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-left: 4px solid #ffb347;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 标签栏 */
+        .tabs {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #2d3349;
+            border: none;
+            color: #a9b7d4;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 1px solid #3f475e;
+        }
+
+        .tab-btn.active {
+            background: #ffb347;
+            color: #1a1e2f;
+            border-color: #ffd966;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 180, 70, 0.3);
+        }
+
+        .tab-btn:hover {
+            background: #3f4a66;
+            color: white;
+        }
+
+        /* 面板通用 */
+        .panel {
+            background: #262d3e;
+            border-radius: 32px;
+            padding: 2rem 1.8rem;
+            box-shadow: 0 20px 30px -8px rgba(0, 0, 0, 0.6);
+            border: 1px solid #3c445b;
+            backdrop-filter: blur(4px);
+        }
+
+        .panel h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #ffb347;
+            padding-bottom: 0.5rem;
+            width: fit-content;
+        }
+
+        /* 卡片网格 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .player-card, .team-card, .match-card {
+            background: #1f2537;
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid #414b66;
+            transition: all 0.2s;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .player-card:hover, .team-card:hover, .match-card:hover {
+            transform: translateY(-4px);
+            border-color: #ffb347;
+            box-shadow: 0 18px 25px -10px #ffb34740;
+        }
+
+        .player-id {
+            font-family: 'Fira Code', monospace;
+            background: #0f121c;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #ffb347;
+            border: 1px solid #ffb34740;
+            margin-bottom: 1rem;
+        }
+
+        .player-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: #fff;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: #181e2c;
+            padding: 0.8rem;
+            border-radius: 18px;
+            margin: 1rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffe484;
+        }
+
+        .kd-badge {
+            background: #ffb34720;
+            border-radius: 40px;
+            padding: 0.5rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border: 1px solid #ffb34760;
+            color: #ffd966;
+        }
+
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .team-header h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .team-members {
+            list-style: none;
+            background: #181e2c;
+            border-radius: 20px;
+            padding: 1rem;
+        }
+
+        .team-members li {
+            padding: 0.5rem;
+            border-bottom: 1px solid #2f364b;
+            font-family: monospace;
+        }
+
+        .match-teams {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .score {
+            color: #ffb347;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .match-status {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            background: #2f374e;
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        .status-completed { background: #1f5a3b; color: #b7ffb7; }
+        .status-scheduled { background: #5a4a1f; color: #ffe484; }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #aaa;
+        }
+
+        .error {
+            background: #5a2e2e;
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            color: #ffa7a7;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🐾 FURRY CUP · 福瑞杯</h1>
+        <span class="badge">海神开剥了 🆚 雕长三万里</span>
+    </div>
+
+    <!-- 标签页切换 -->
+    <div class="tabs">
+        <button class="tab-btn active" id="tabPlayers">🏀 选手数据</button>
+        <button class="tab-btn" id="tabTeams">⚔️ 战队信息</button>
+        <button class="tab-btn" id="tabMatches">📅 比赛比分</button>
+    </div>
+
+    <!-- 选手面板 -->
+    <div id="playersPanel" class="panel">
+        <h2>📊 选手数据 · 击杀/死亡/助攻</h2>
+        <div id="playersContent" class="grid">加载中...</div>
+    </div>
+
+    <!-- 战队面板 (初始隐藏) -->
+    <div id="teamsPanel" class="panel" style="display: none;">
+        <h2>🏳️ 参赛战队</h2>
+        <div id="teamsContent" class="grid">加载中...</div>
+    </div>
+
+    <!-- 比赛面板 (初始隐藏) -->
+    <div id="matchesPanel" class="panel" style="display: none;">
+        <h2>⚡ 比赛赛程 & 比分</h2>
+        <div id="matchesContent" class="grid">加载中...</div>
+    </div>
+
+    <div class="footer">
+        ⚡ 数据来自 JSONBin.io · 福瑞杯专属 · 手动更新
+    </div>
+</div>
+
+<script>
+    (function() {
+        // -------------------- 配置区 --------------------
+        // 你的三个Bin ID (从链接中提取)
+        const PLAYERS_BIN = '69b40570aa77b81da9dfe2e9';
+        const TEAMS_BIN = '69b40652aa77b81da9dfe61a';
+        const MATCHES_BIN = '69b40695aa77b81da9dfe715';
+
+        // 🔐 重要: 在这里填入你的 X-Master-Key (JSONBin.io 的密钥)
+        // 获取地址: 登录JSONBin后 -> 右上角头像 -> API Keys
+        const MASTER_KEY = 'YOUR_JSONBIN_MASTER_KEY_HERE';   // <-- 替换为你自己的密钥
+
+        // 基础 API 地址
+        const BASE_URL = 'https://api.jsonbin.io/v3/b';
+
+        // 全局存储原始数据 (便于后续使用)
+        let playersData = [];
+        let teamsData = [];
+        let matchesData = [];
+
+        // 获取DOM元素
+        const playersPanel = document.getElementById('playersPanel');
+        const teamsPanel = document.getElementById('teamsPanel');
+        const matchesPanel = document.getElementById('matchesPanel');
+        const playersContent = document.getElementById('playersContent');
+        const teamsContent = document.getElementById('teamsContent');
+        const matchesContent = document.getElementById('matchesContent');
+
+        const tabPlayers = document.getElementById('tabPlayers');
+        const tabTeams = document.getElementById('tabTeams');
+        const tabMatches = document.getElementById('tabMatches');
+
+        // -------------------- 通用 fetch 包装 (带密钥) --------------------
+        async function fetchBin(binId) {
+            if (!MASTER_KEY || MASTER_KEY === 'YOUR_JSONBIN_MASTER_KEY_HERE') {
+                throw new Error('请先在代码中填入正确的 JSONBin.io X-Master-Key');
+            }
+            const url = `${BASE_URL}/${binId}/latest`;
+            const res = await fetch(url, {
+                headers: {
+                    'X-Master-Key': MASTER_KEY
+                }
+            });
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status} : ${res.statusText}`);
+            }
+            const json = await res.json();
+            return json.record;  // JSONBin 的数据放在 record 字段里
+        }
+
+        // -------------------- 加载所有数据 --------------------
+        async function loadAllData() {
+            // 显示加载状态
+            playersContent.innerHTML = '<div class="loading">🔄 加载选手数据中...</div>';
+            teamsContent.innerHTML = '<div class="loading">🔄 加载战队数据中...</div>';
+            matchesContent.innerHTML = '<div class="loading">🔄 加载比赛数据中...</div>';
+
+            try {
+                const [players, teams, matches] = await Promise.all([
+                    fetchBin(PLAYERS_BIN).catch(e => { throw new Error(`选手数据: ${e.message}`); }),
+                    fetchBin(TEAMS_BIN).catch(e => { throw new Error(`战队数据: ${e.message}`); }),
+                    fetchBin(MATCHES_BIN).catch(e => { throw new Error(`比赛数据: ${e.message}`); })
+                ]);
+
+                playersData = players;
+                teamsData = teams;
+                matchesData = matches;
+
+                // 渲染三个面板
+                renderPlayers(playersData);
+                renderTeams(teamsData, playersData);
+                renderMatches(matchesData, teamsData);
+
+            } catch (error) {
+                console.error(error);
+                const errorMsg = `<div class="error">❌ 加载失败: ${error.message}<br>请检查密钥或网络，并确认Bin ID是否正确。</div>`;
+                playersContent.innerHTML = errorMsg;
+                teamsContent.innerHTML = errorMsg;
+                matchesContent.innerHTML = errorMsg;
+            }
+        }
+
+        // -------------------- 渲染函数 --------------------
+        function renderPlayers(players) {
+            if (!players || !players.length) {
+                playersContent.innerHTML = '<div class="error">暂无选手数据</div>';
+                return;
+            }
+
+            let html = '';
+            players.forEach(p => {
+                const kills = p.kills || 0;
+                const deaths = p.deaths || 0;
+                const assists = p.assists || 0;
+                const kd = deaths === 0 ? kills.toFixed(2) : (kills / deaths).toFixed(2);
+
+                html += `
+                    <div class="player-card">
+                        <div class="player-id">${p.id || '--'}</div>
+                        <div class="player-name">${p.name || '无名'}</div>
+                        <div class="stats">
+                            <div class="stat-item"><span class="stat-label">击杀</span><div class="stat-value">${kills}</div></div>
+                            <div class="stat-item"><span class="stat-label">死亡</span><div class="stat-value">${deaths}</div></div>
+                            <div class="stat-item"><span class="stat-label">助攻</span><div class="stat-value">${assists}</div></div>
+                        </div>
+                        <div class="kd-badge">⚡ KD: ${kd}</div>
+                    </div>
+                `;
+            });
+            playersContent.innerHTML = html;
+        }
+
+        function renderTeams(teams, players) {
+            if (!teams || !teams.length) {
+                teamsContent.innerHTML = '<div class="error">暂无战队数据</div>';
+                return;
+            }
+
+            // 根据teamId过滤队员
+            function getPlayersOfTeam(teamId) {
+                return players.filter(p => p.teamId === teamId).map(p => p.id).join(', ') || '无队员';
+            }
+
+            let html = '';
+            teams.forEach(t => {
+                html += `
+                    <div class="team-card">
+                        <div class="team-header">
+                            <h3>${t.name || '未知战队'}</h3>
+                        </div>
+                        <div style="margin-bottom: 0.8rem; opacity:0.8;">ID: ${t.id}</div>
+                        <div class="team-members">
+                            <li style="list-style: none; font-weight:600; color:#ffb347;">👥 队员列表</li>
+                            ${t.players ? t.players.map(pid => `<li>🔹 ${pid}</li>`).join('') : '<li>暂无队员</li>'}
+                        </div>
+                    </div>
+                `;
+            });
+            teamsContent.innerHTML = html;
+        }
+
+        function renderMatches(matches, teams) {
+            if (!matches || !matches.length) {
+                matchesContent.innerHTML = '<div class="error">暂无比赛数据</div>';
+                return;
+            }
+
+            // 辅助: 根据teamId找队名
+            function getTeamName(teamId) {
+                const t = teams.find(t => t.id === teamId);
+                return t ? t.name : teamId;
+            }
+
+            let html = '';
+            matches.forEach(m => {
+                const teamAName = getTeamName(m.teamA?.id);
+                const teamBName = getTeamName(m.teamB?.id);
+                const scoreA = m.teamA?.score ?? 0;
+                const scoreB = m.teamB?.score ?? 0;
+                const statusClass = m.status === 'completed' ? 'status-completed' : (m.status === 'scheduled' ? 'status-scheduled' : '');
+
+                html += `
+                    <div class="match-card">
+                        <div class="match-teams">
+                            <span>${teamAName}</span>
+                            <span class="score">${scoreA} : ${scoreB}</span>
+                            <span>${teamBName}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                            <span class="match-status ${statusClass}">${m.status || 'unknown'}</span>
+                            <span style="opacity:0.7;">📅 ${m.date || '日期待定'}</span>
+                        </div>
+                        ${m.maps && m.maps.length ? `<div style="margin-top: 0.8rem; font-size:0.9rem;">🗺️ 地图: ${m.maps.join(' · ')}</div>` : ''}
+                    </div>
+                `;
+            });
+            matchesContent.innerHTML = html;
+        }
+
+        // -------------------- 标签切换逻辑 --------------------
+        function showPanel(panelName) {
+            playersPanel.style.display = 'none';
+            teamsPanel.style.display = 'none';
+            matchesPanel.style.display = 'none';
+            tabPlayers.classList.remove('active');
+            tabTeams.classList.remove('active');
+            tabMatches.classList.remove('active');
+
+            if (panelName === 'players') {
+                playersPanel.style.display = 'block';
+                tabPlayers.classList.add('active');
+            } else if (panelName === 'teams') {
+                teamsPanel.style.display = 'block';
+                tabTeams.classList.add('active');
+            } else if (panelName === 'matches') {
+                matchesPanel.style.display = 'block';
+                tabMatches.classList.add('active');
+            }
+        }
+
+        tabPlayers.addEventListener('click', () => showPanel('players'));
+        tabTeams.addEventListener('click', () => showPanel('teams'));
+        tabMatches.addEventListener('click', () => showPanel('matches'));
+
+        // -------------------- 启动 --------------------
+        loadAllData();
+    })();
+</script>
+</body>
+</html>

@@ -19,13 +19,13 @@
             padding: 2rem 1.5rem;
         }
 
-        .container {
+        。container {
             max-width: 1400px;
             margin: 0 auto;
         }
 
         /* 头部 */
-        .header {
+        。header {
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -33,7 +33,7 @@
             flex-wrap: wrap;
         }
 
-        .header h1 {
+        。header h1 {
             font-size: 3rem;
             font-weight: 800;
             background: linear-gradient(135deg, #ffe77a, #ffb347);
@@ -61,7 +61,7 @@
             flex-wrap: wrap;
         }
 
-        .tab-btn {
+        。tab-btn {
             background: #2d3349;
             border: none;
             color: #a9b7d4;
@@ -89,7 +89,7 @@
         }
 
         /* 面板通用 */
-        .panel {
+        。panel {
             background: #262d3e;
             border-radius: 32px;
             padding: 2rem 1.8rem;
@@ -117,7 +117,7 @@
             gap: 1.5rem;
         }
 
-        .player-card, .team-card, .match-card {
+        。player-card, .team-card, .match-card {
             background: #1f2537;
             border-radius: 24px;
             padding: 1.5rem;
@@ -309,7 +309,7 @@
 
         // 🔐 重要: 在这里填入你的 X-Master-Key (JSONBin.io 的密钥)
         // 获取地址: 登录JSONBin后 -> 右上角头像 -> API Keys
-        const MASTER_KEY = 'YOUR_JSONBIN_MASTER_KEY_HERE';   // <-- 替换为你自己的密钥
+        const MASTER_KEY = '$2a$10$bye5CsXK4Vj1g9GgB/KsPucb8zRL6YxjSqXrf8mZ38TtzXHAHgIiO';   // <-- 替换为你自己的密钥
 
         // 基础 API 地址
         const BASE_URL = 'https://api.jsonbin.io/v3/b';
@@ -333,8 +333,8 @@
 
         // -------------------- 通用 fetch 包装 (带密钥) --------------------
         async function fetchBin(binId) {
-            if (!MASTER_KEY || MASTER_KEY === 'YOUR_JSONBIN_MASTER_KEY_HERE') {
-                throw new Error('请先在代码中填入正确的 JSONBin.io X-Master-Key');
+            if (!MASTER_KEY || MASTER_KEY === '$2a$10$bye5CsXK4Vj1g9GgB/KsPucb8zRL6YxjSqXrf8mZ38TtzXHAHgIiO) {
+                throw new 错误('请先在代码中填入正确的 JSONBin.io X-Master-Key');
             }
             const url = `${BASE_URL}/${binId}/latest`;
             const res = await fetch(url, {
@@ -343,7 +343,7 @@
                 }
             });
             if (!res.ok) {
-                throw new Error(`HTTP ${res.status} : ${res.statusText}`);
+                throw new 错误(`HTTP ${res.status} : ${res.statusText}`);
             }
             const json = await res.json();
             return json.record;  // JSONBin 的数据放在 record 字段里
@@ -357,10 +357,10 @@
             matchesContent.innerHTML = '<div class="loading">🔄 加载比赛数据中...</div>';
 
             try {
-                const [players, teams, matches] = await Promise.all([
-                    fetchBin(PLAYERS_BIN).catch(e => { throw new Error(`选手数据: ${e.message}`); }),
-                    fetchBin(TEAMS_BIN).catch(e => { throw new Error(`战队数据: ${e.message}`); }),
-                    fetchBin(MATCHES_BIN).catch(e => { throw new Error(`比赛数据: ${e.message}`); })
+                const [players, teams, matches] = await Promise.全部([
+                    fetchBin(PLAYERS_BIN).catch(e => { throw new 错误(`选手数据: ${e.message}`); }),
+                    fetchBin(TEAMS_BIN).catch(e => { throw new 错误(`战队数据: ${e.message}`); }),
+                    fetchBin(MATCHES_BIN).catch(e => { throw new 错误(`比赛数据: ${e.message}`); })
                 ]);
 
                 playersData = players;

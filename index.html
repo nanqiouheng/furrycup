@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,397 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ===== 完整样式表（同之前，无需修改）===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0c12;
+            color: #f0f4fa;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        .hero {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffc285, #ff5e0d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.3rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255,94,13,0.3);
+        }
+        .nav-tab {
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #cdd9ff;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+        }
+        .nav-tab.active {
+            background: #ff5e0d;
+            color: #0a0c12;
+        }
+        .panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .panel.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* 主页 */
+        .home-content {
+            background: rgba(12,17,27,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255,94,13,0.2);
+        }
+        .home-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #ffc285;
+        }
+        .home-content p {
+            font-size: 1.1rem;
+            color: #cdd9ff;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+        .home-stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 24px;
+            padding: 1.5rem;
+            min-width: 150px;
+            border: 1px solid rgba(255,94,13,0.2);
+        }
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ff5e0d;
+        }
+        .stat-card .label {
+            color: #a0b3d9;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        /* 赛事三栏 */
+        .matches-grid {
+            display: grid;
+            grid-template-columns: 220px 1fr 280px;
+            gap: 1.5rem;
+            align-items: start;
+        }
+        .tournament-list {
+            background: rgba(12,17,27,0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,94,13,0.2);
+            position: sticky;
+            top: 2rem;
+        }
+        .tournament-list h3 {
+            color: #ffc285;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .tournament-items {
+            list-style: none;
+        }
+        .tournament-item {
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+        .tournament-item:hover {
+            background: rgba(255,94,13,0.1);
+            border-color: #ff5e0d40;
+        }
+        .tournament-item.active {
+            background: #ff5e0d20;
+            border-color: #ff5e0d;
+            color: #ffc285;
+            font-weight: 600;
+        }
+        .matches-center {
+            background: rgba(12,17,27,0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,94,13,0.2);
+        }
+        .matches-center h3 {
+            color: #ffc285;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        .match-item {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.2s;
+        }
+        .match-item:hover {
+            border-color: #ff5e0d40;
+        }
+        .match-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .match-teams {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .match-score {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ff5e0d;
+        }
+        .match-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+            color: #a0b3d9;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+        .match-status {
+            background: rgba(255,255,255,0.05);
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+        }
+        .status-completed { color: #9eff9e; }
+        .status-scheduled { color: #ffd966; }
+        .rankings-side {
+            background: rgba(12,17,27,0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,94,13,0.2);
+            position: sticky;
+            top: 2rem;
+        }
+        .rankings-side h3 {
+            color: #ffc285;
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+        }
+        .ranking-list {
+            list-style: none;
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+        .rank-number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ff5e0d;
+            min-width: 30px;
+        }
+        .team-info {
+            flex: 1;
+        }
+        .team-name {
+            font-weight: 600;
+        }
+        .team-wins {
+            font-size: 0.85rem;
+            color: #a0b3d9;
+        }
+        .team-wins span {
+            color: #ffc285;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        /* Power Rankings */
+        .power-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .team-power-card {
+            background: rgba(15,20,30,0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,94,13,0.2);
+            border-radius: 28px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .team-power-card:hover {
+            transform: translateY(-4px);
+            border-color: #ff5e0d;
+            box-shadow: 0 15px 25px -10px #ff5e0d60;
+        }
+        .team-power-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .team-power-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .team-power-record {
+            color: #ffc285;
+            font-weight: 600;
+        }
+        .team-power-stats {
+            display: flex;
+            gap: 1rem;
+            color: #a0b3d9;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .team-power-stats span {
+            color: #ff5e0d;
+            font-weight: 600;
+        }
+        /* 模态框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: #141a27;
+            border-radius: 40px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid #ff5e0d;
+            box-shadow: 0 30px 50px #000;
+        }
+        .modal h3 {
+            color: #ffc285;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        .modal-close {
+            float: right;
+            background: none;
+            border: none;
+            color: #ff5e0d;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-close:hover {
+            color: #ffc285;
+        }
+        .player-list {
+            display: grid;
+            gap: 1rem;
+        }
+        .player-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 0.5rem;
+            padding: 0.8rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 16px;
+            align-items: center;
+        }
+        .player-row span {
+            color: #fff;
+        }
+        .player-row .stat {
+            color: #ffc285;
+            font-weight: 600;
+        }
+        /* 加载/错误 */
+        .loading, .error {
+            text-align: center;
+            padding: 3rem;
+            color: #a0b3d9;
+        }
+        .loading i { animation: spin 1s infinite linear; color: #ff5e0d; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .error { color: #ffa7a7; }
+        /* 响应式 */
+        @media (max-width: 1000px) {
+            .matches-grid {
+                grid-template-columns: 1fr;
+            }
+            .tournament-list, .rankings-side {
+                position: static;
+            }
+        }
+        @media (max-width: 600px) {
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-tabs {
+                width: 100%;
+                justify-content: center;
+            }
+            .home-content { padding: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -16,29 +406,29 @@
         <div class="hero">
             <h1>🐾 FURRY CUP · 福瑞杯</h1>
             <div class="nav-tabs">
-                <button class="nav-tab active" data-panel="home">主頁</button>
-                <button class="nav-tab" data-panel="matches">賽事</button>
-                <button class="nav-tab" data-panel="power">Power Rankings</button>
+                <button class="nav-tab active" data-panel="home">主页</button>
+                <button class="nav-tab" data-panel="matches">赛事</button>
+                <button class="nav-tab" data-panel="power">实力排行</button>
             </div>
         </div>
 
         <!-- 主页面板 -->
         <div id="homePanel" class="panel active">
             <div class="home-content">
-                <h2>歡迎來到福瑞杯</h2>
-                <p>福瑞杯是由同學們自發組織的《瓦羅蘭特》友誼賽，旨在享受遊戲樂趣、增進友誼。首屆比賽由「海神開剝了」與「雕長三萬里」兩支隊伍角逐。</p>
+                <h2>欢迎来到福瑞杯</h2>
+                <p>福瑞杯是由同学们自发组织的《无畏契约》友谊赛，旨在享受游戏乐趣、增进友谊。首届比赛由「海神开剥了」与「雕长三万里」两支队伍角逐。</p>
                 <div class="home-stats">
                     <div class="stat-card">
                         <div class="number" id="totalMatches">0</div>
-                        <div class="label">總場次</div>
+                        <div class="label">总场次</div>
                     </div>
                     <div class="stat-card">
                         <div class="number" id="totalPlayers">0</div>
-                        <div class="label">參賽選手</div>
+                        <div class="label">参赛选手</div>
                     </div>
                     <div class="stat-card">
                         <div class="number" id="topKiller">-</div>
-                        <div class="label">擊殺王</div>
+                        <div class="label">击杀王</div>
                     </div>
                 </div>
             </div>
@@ -49,36 +439,36 @@
             <div class="matches-grid">
                 <!-- 左侧：赛事列表 -->
                 <div class="tournament-list">
-                    <h3>🏆 賽事列表</h3>
+                    <h3>🏆 赛事列表</h3>
                     <ul class="tournament-items" id="tournamentList">
-                        <li class="tournament-item active">第一屆福瑞杯</li>
+                        <li class="tournament-item active">第一届福瑞杯</li>
                         <!-- 后续动态添加 -->
                     </ul>
                 </div>
 
                 <!-- 中间：赛程比分 -->
                 <div class="matches-center">
-                    <h3>📅 賽程 & 比分</h3>
+                    <h3>📅 赛程 & 比分</h3>
                     <div id="matchesCenterContent">
-                        <div class="loading">⏳ 載入賽程...</div>
+                        <div class="loading">⏳ 加载赛程...</div>
                     </div>
                 </div>
 
                 <!-- 右侧：战队实力排行（按胜场） -->
                 <div class="rankings-side">
-                    <h3>⚡ 戰隊實力榜</h3>
+                    <h3>⚡ 战队实力榜</h3>
                     <div id="rankingsSideContent">
-                        <div class="loading">⏳ 載入排行...</div>
+                        <div class="loading">⏳ 加载排行...</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Power Rankings 面板 -->
+        <!-- 实力排行面板 -->
         <div id="powerPanel" class="panel">
-            <h2 style="margin-bottom: 1.5rem; color:#ffc285;">🏅 Power Rankings</h2>
+            <h2 style="margin-bottom: 1.5rem; color:#ffc285;">🏅 实力排行</h2>
             <div class="power-grid" id="powerGrid">
-                <div class="loading">⏳ 載入排名...</div>
+                <div class="loading">⏳ 加载排名...</div>
             </div>
         </div>
 
@@ -86,7 +476,7 @@
         <div class="modal-overlay" id="playerModal">
             <div class="modal">
                 <button class="modal-close">&times;</button>
-                <h3 id="modalTeamName">隊伍隊員</h3>
+                <h3 id="modalTeamName">队伍队员</h3>
                 <div id="modalPlayerList" class="player-list"></div>
             </div>
         </div>
@@ -118,7 +508,7 @@
             let matchesData = [];
 
             // 当前选中的赛事（默认第一届）
-            let currentTournament = '第一屆福瑞杯';
+            let currentTournament = '第一届福瑞杯';
 
             // 导航切换
             navTabs.forEach(tab => {
@@ -159,7 +549,7 @@
                 return wins;
             }
 
-            // 计算战队总胜/负场（用于Power Rankings）
+            // 计算战队总胜/负场（用于实力排行）
             function calculateTeamRecords(matches) {
                 const records = {};
                 teamsData.forEach(t => records[t.id] = { wins: 0, losses: 0 });
@@ -196,7 +586,7 @@
             // 渲染左侧赛事列表（从matches.json中提取唯一的tournament字段）
             function renderTournamentList() {
                 const tournaments = [...new Set(matchesData.map(m => m.tournament).filter(Boolean))];
-                if (tournaments.length === 0) tournaments.push('第一屆福瑞杯'); // 默认
+                if (tournaments.length === 0) tournaments.push('第一届福瑞杯'); // 默认
                 let html = '';
                 tournaments.forEach(t => {
                     const activeClass = t === currentTournament ? 'active' : '';
@@ -219,7 +609,7 @@
             function renderMatchesCenter() {
                 const filtered = matchesData.filter(m => m.tournament === currentTournament);
                 if (!filtered.length) {
-                    matchesCenter.innerHTML = '<div class="error">暫無賽程</div>';
+                    matchesCenter.innerHTML = '<div class="error">暂无赛程</div>';
                     return;
                 }
 
@@ -246,7 +636,7 @@
                         const scoreA = m.teamA.score ?? 0;
                         const scoreB = m.teamB.score ?? 0;
                         const statusClass = m.status === 'completed' ? 'status-completed' : 'status-scheduled';
-                        const statusText = m.status === 'completed' ? '已結束' : '未開始';
+                        const statusText = m.status === 'completed' ? '已结束' : '未开始';
                         const timeStr = m.time ? `🕒 ${m.time}` : '';
 
                         html += `
@@ -281,7 +671,7 @@
                             <span class="rank-number">#${idx+1}</span>
                             <div class="team-info">
                                 <div class="team-name">${t.name}</div>
-                                <div class="team-wins">勝場 <span>${t.wins}</span></div>
+                                <div class="team-wins">胜场 <span>${t.wins}</span></div>
                             </div>
                         </li>
                     `;
@@ -290,7 +680,7 @@
                 rankingsSide.innerHTML = html;
             }
 
-            // 渲染 Power Rankings 页面（战队卡片）
+            // 渲染实力排行页面（战队卡片）
             function renderPowerRankings() {
                 const records = calculateTeamRecords(matchesData);
                 let html = '';
@@ -300,10 +690,10 @@
                         <div class="team-power-card" data-team-id="${t.id}">
                             <div class="team-power-header">
                                 <span class="team-power-name">${t.name}</span>
-                                <span class="team-power-record">${rec.wins}W - ${rec.losses}L</span>
+                                <span class="team-power-record">${rec.wins}胜 - ${rec.losses}负</span>
                             </div>
                             <div class="team-power-stats">
-                                <span>勝率: ${rec.wins+rec.losses ? ((rec.wins/(rec.wins+rec.losses))*100).toFixed(1) : 0}%</span>
+                                <span>胜率: ${rec.wins+rec.losses ? ((rec.wins/(rec.wins+rec.losses))*100).toFixed(1) : 0}%</span>
                             </div>
                         </div>
                     `;
@@ -319,7 +709,7 @@
                             // 根据选手的team字段匹配中文队名
                             return p.team === team.name;
                         });
-                        modalTeamName.innerText = team.name + ' 隊員';
+                        modalTeamName.innerText = team.name + ' 队员';
                         let playerHtml = '';
                         teamPlayers.forEach(p => {
                             const kd = p.deaths ? (p.kills / p.deaths).toFixed(2) : p.kills.toFixed(2);
@@ -333,7 +723,7 @@
                                 </div>
                             `;
                         });
-                        if (!playerHtml) playerHtml = '<div style="color:#aaa;">暫無隊員數據</div>';
+                        if (!playerHtml) playerHtml = '<div style="color:#aaa;">暂无队员数据</div>';
                         modalPlayerList.innerHTML = playerHtml;
                         modal.style.display = 'flex';
                     });
@@ -357,11 +747,11 @@
                     renderMatchesCenter();
                     renderRankingsSide();
 
-                    // 渲染 Power Rankings
+                    // 渲染实力排行
                     renderPowerRankings();
                 } catch (e) {
                     console.error(e);
-                    const errMsg = `<div class="error">載入失敗: ${e.message}</div>`;
+                    const errMsg = `<div class="error">加载失败: ${e.message}</div>`;
                     matchesCenter.innerHTML = errMsg;
                     rankingsSide.innerHTML = errMsg;
                     powerGrid.innerHTML = errMsg;

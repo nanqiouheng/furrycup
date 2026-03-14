@@ -16,8 +16,8 @@
 }
 
 .background {
-    position: absolute;
     z-index: -99;
+    position: absolute;
     opacity: 0.1;
     filter: blur(15px);
     -webkit-filter: blur(15px);

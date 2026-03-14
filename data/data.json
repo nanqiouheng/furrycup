@@ -1,0 +1,18 @@
+{
+    "tournaments": [
+        { "id": 1, "name": "福瑞杯", "startDate": "2025-04-01", "endDate": "2025-04-07", "status": "即将开始" }
+    ],
+    "matches": [
+        { "id": 101, "tournamentId": 1, "team1Id": 1, "team2Id": 2, "time": "2025-04-01T15:00:00", "score": "0:0" },
+        { "id": 102, "tournamentId": 1, "team1Id": 3, "team2Id": 4, "time": "2025-04-01T18:00:00", "score": "0:0" },
+        { "id": 103, "tournamentId": 1, "team1Id": 5, "team2Id": 6, "time": "2025-04-02T15:00:00", "score": "0:0" }
+    ],
+    "teams": [
+        { "id": 1, "name": "Sentinels", "logo": "https://via.placeholder.com/100x100?text=Sen", "rating": 1650 },
+        { "id": 2, "name": "LOUD", "logo": "https://via.placeholder.com/100x100?text=LOUD", "rating": 1620 },
+        { "id": 3, "name": "PRX", "logo": "https://via.placeholder.com/100x100?text=PRX", "rating": 1600 },
+        { "id": 4, "name": "Fnatic", "logo": "https://via.placeholder.com/100x100?text=FNC", "rating": 1580 },
+        { "id": 5, "name": "Team Liquid", "logo": "https://via.placeholder.com/100x100?text=TL", "rating": 1550 },
+        { "id": 6, "name": "DRX", "logo": "https://via.placeholder.com/100x100?text=DRX", "rating": 1530 }
+    ]
+}

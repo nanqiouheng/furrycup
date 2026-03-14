@@ -1,121 +1,41 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FURRY CUP · 福瑞杯</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>瓦洛兰特赛事中心 - 主页</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="site-wrapper">
-        <!-- 顶部导航栏（长方形） -->
-        <header class="main-header">
-            <div class="container">
-                <nav class="top-nav">
-                    <a href="#" class="logo">FURRY CUP</a>
-                    <div class="nav-tabs">
-                        <button class="nav-tab active" data-page="home">主页</button>
-                        <button class="nav-tab" data-page="furrycup">福瑞杯</button>
-                        <button class="nav-tab" data-page="teams">战队</button>
-                    </div>
-                    <div class="user-actions">
-                        <span class="icon">🔔</span>
-                        <span class="icon">👤</span>
-                    </div>
-                </nav>
+    <header>
+        <nav class="navbar">
+            <div class="logo">VALORANT 赛事</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">主页</a></li>
+                <li><a href="furycup.html">福瑞杯</a></li>
+                <li><a href="teams.html">队伍</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>欢迎来到瓦洛兰特赛事中心</h1>
+            <p>追踪最新比赛、队伍与赛事信息</p>
+        </section>
+
+        <section class="upcoming-matches">
+            <h2>即将开始的比赛</h2>
+            <div id="matches-container" class="matches-grid">
+                <!-- 由 JavaScript 动态渲染 -->
             </div>
-        </header>
+        </section>
+    </main>
 
-        <!-- 页面容器：根据当前页面显示不同内容 -->
-        <main class="main-content container">
-            <!-- 主页页面 -->
-            <div id="homePage" class="page active">
-                <div class="home-content">
-                    <h2>欢迎来到福瑞杯</h2>
-                    <p>福瑞杯是由同学们自发组织的《无畏契约》友谊赛，旨在享受游戏乐趣、增进友谊。首届比赛由「海神开剥了」与「雕长三万里」两支队伍角逐。</p>
-                    <div class="home-stats">
-                        <div class="stat-card">
-                            <div class="number" id="totalMatches">0</div>
-                            <div class="label">总场次</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="number" id="totalPlayers">0</div>
-                            <div class="label">参赛选手</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="number" id="topKiller">-</div>
-                            <div class="label">击杀王</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <footer>
+        <p>&copy; 2025 瓦洛兰特赛事中心</p>
+    </footer>
 
-            <!-- 福瑞杯页面（赛事，三栏布局） -->
-            <div id="furrycupPage" class="page">
-                <div class="matches-grid">
-                    <!-- 左侧时间轴 -->
-                    <aside class="timeline-sidebar">
-                        <div class="timeline-header">
-                            <h3>所有地区</h3>
-                            <span class="tournament-count">2项赛事</span>
-                        </div>
-                        <div class="timeline-stages" id="timelineStages">
-                            <div class="loading">⏳ 加载阶段...</div>
-                        </div>
-                    </aside>
-
-                    <!-- 中央赛程区 -->
-                    <section class="schedule-area">
-                        <div class="schedule-header">
-                            <h2>今天</h2>
-                            <span class="date-range" id="todayDate"></span>
-                        </div>
-                        <div id="matchesList" class="matches-list">
-                            <div class="loading">⏳ 加载赛程...</div>
-                        </div>
-                    </section>
-
-                    <!-- 右侧实力排名 -->
-                    <aside class="rankings-sidebar">
-                        <div class="rankings-header">
-                            <h3>全球实力排名</h3>
-                        </div>
-                        <div id="rankingsList" class="rankings-list">
-                            <div class="loading">⏳ 加载排名...</div>
-                        </div>
-                    </aside>
-                </div>
-            </div>
-
-            <!-- 战队页面 -->
-            <div id="teamsPage" class="page">
-                <div class="teams-grid" id="teamsGrid">
-                    <!-- 动态渲染战队卡片 -->
-                    <div class="loading">⏳ 加载战队...</div>
-                </div>
-            </div>
-        </main>
-
-        <!-- 底部信息（已修改） -->
-        <footer class="main-footer">
-            <div class="container">
-                <p>© 2026 FURRY CUP</p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- 队员详情模态框 (全局复用) -->
-    <div class="modal-overlay" id="playerModal">
-        <div class="modal">
-            <button class="modal-close">&times;</button>
-            <h3 id="modalTeamName">队伍队员</h3>
-            <div id="modalPlayerList" class="player-grid"></div>
-        </div>
-    </div>
-
-    <script src="data/script.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

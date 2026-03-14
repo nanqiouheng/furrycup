@@ -15,6 +15,14 @@
     /* 边框颜色 */
 }
 
+.background {
+    position: absolute;
+    z-index: -99;
+    opacity: 0.1;
+    filter: blur(15px);
+    -webkit-filter: blur(15px);
+}
+
 * {
     margin: 0;
     padding: 0;

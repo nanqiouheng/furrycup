@@ -1,10 +1,18 @@
 :root {
-    --bg-primary: #0f1922;      /* 主背景色 */
-    --bg-secondary: #1f2a34;    /* 卡片/次级背景 */
-    --accent: #ff4654;           /* 强调色（红） */
-    --text-primary: #f9f9f9;     /* 主文字 */
-    --text-secondary: #a0a8b0;   /* 辅助文字 */
-    --border-color: #2e3a44;     /* 边框颜色 */
+    --bg-primary: #0f1922;
+    /* 主背景色 */
+    --bg-secondary: #1f2a34;
+    /* 卡片/次级背景 */
+    --accent: #ff4654;
+    /* 强调色（红） */
+    --accent2: #6868e1;
+    /* 强调色（红） */
+    --text-primary: #f9f9f9;
+    /* 主文字 */
+    --text-secondary: #a0a8b0;
+    /* 辅助文字 */
+    --border-color: #2e3a44;
+    /* 边框颜色 */
 }
 
 * {
@@ -33,10 +41,19 @@ body {
     border-bottom: 2px solid var(--accent);
 }
 
+
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--accent);
+    align-items: center;
+    display: flex;
+    gap: 20px;
+}
+
+.logo img {
+    width: 50px;
+    height: 50px;
 }
 
 .nav-links {
@@ -126,7 +143,7 @@ h2 {
 }
 
 .match-teams .vs {
-    color: var(--accent);
+    color: white;
     font-size: 1rem;
     font-weight: normal;
 }
@@ -143,6 +160,108 @@ h2 {
     text-align: center;
     color: var(--text-secondary);
     font-size: 0.9rem;
+}
+
+.match-detail {
+    background-color: var(--bg-secondary);
+    height: 70vh;
+    width: 50vw;
+    position: absolute;
+    top: 15vh;
+    right: 25vw;
+    border: var(--border-color) 5px solid;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    display: none;
+}
+
+.match-detail-score {
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+}
+
+.player-list {
+    margin: 0 50px 20px 50px;
+    display: table;
+    border-collapse: collapse;
+    border-color: var(--border-color);
+    border: 5px solid var(--border-color);
+}
+
+.player-list tr {
+    border: var(--border-color) 5px solid;
+    font-size: 20px;
+    padding: 0 20px 0 20px;
+}
+
+td {
+    border: 5px solid var(--border-color);
+    text-align: center;
+}
+
+td.player-name {
+    text-align: left;
+    padding: 0 10px 0 10px;
+    width: 50%;
+}
+
+.match-detail button {
+    position: absolute;
+    right: 20px;
+
+    background-color: var(--bg-primary);
+    border-radius: 50%;
+    border: 0;
+    height: 20px;
+    width: 20px;
+    color: white;
+    transition: .2s ease-in-out;
+    font-weight: bold;
+}
+
+.match-detail button:hover {
+    background-color: var(--accent);
+}
+
+#team-1 {
+    color: var(--accent);
+}
+
+#team-2 {
+    color: var(--accent2);
+}
+
+.match-detail-team-1 {
+    background-color: var(--accent);
+    font-weight: bold;
+    width: 40%;
+    font-size: 30px;
+    padding-left: 10px;
+    clip-path: polygon(0 0, calc(100% - 35px) 0, 100% 100%, 0 100%);
+}
+
+.match-detail-team-2 {
+    background-color: var(--accent2);
+    font-weight: bold;
+    width: 40%;
+    font-size: 30px;
+    padding-left: 10px;
+    clip-path: polygon(0 0, calc(100% - 35px) 0, 100% 100%, 0 100%);
+}
+
+.cover {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    top: 0;
+    left: 0;
+    display: none;
 }
 
 /* 队伍卡片 */
@@ -199,9 +318,30 @@ h2 {
     border-left: 4px solid var(--accent);
 }
 
+.tournament-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .tournament-header h1 {
     color: var(--accent);
     margin-bottom: 0.5rem;
+}
+
+.tournament-actions button {
+    background-color: var(--bg-primary);
+    border-radius: 50%;
+    border: 0;
+    height: 50px;
+    width: 50px;
+    color: white;
+    transition: .2s ease-in-out;
+    font-weight: bold;
+}
+
+.tournament-actions button:hover {
+    background-color: var(--accent);
 }
 
 /* 页脚 */

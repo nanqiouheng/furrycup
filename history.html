@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>福瑞杯 - 队伍</title>
+    <title>福瑞杯 - 历史赛事</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="icon.png">
 </head>
+
 <body>
     <header>
         <nav class="navbar">
@@ -16,28 +18,31 @@
             </div>
             <ul class="nav-links">
                 <li><a href="index.html">主页</a></li>
-                <li><a href="history.html">历史赛事</a></li>
-                <li><a href="teams.html" class="active">队伍</a></li>
+                <li><a href="history.html" class="active">历史赛事</a></li>
+                <li><a href="teams.html">队伍</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="teams-list">
-            <h2>参赛队伍</h2>
-            <div id="teams-grid" class="teams-grid">
-                <!-- 由 JavaScript 动态渲染 -->
-            </div>
+        <section class="tournaments">
         </section>
 
-        
         <div class="cover"></div>
         <div class="match-detail">
             <button onclick="closeMatchDetail()">X</button>
+            <h1 class="match-detail-score">
+                <span id="team-1">0</span> - <span id="team-2">0</span>
+            </h1>
             <div class="match-detail-team-1">
                 Team 1
             </div>
             <table border="1" class="player-list" id="team-1-list">
+            </table>
+            <div class="match-detail-team-2">
+                Team 2
+            </div>
+            <table border="1" class="player-list" id="team-2-list">
             </table>
         </div>
     </main>
@@ -48,4 +53,5 @@
 
     <script src="main.js"></script>
 </body>
+
 </html>

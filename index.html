@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>瓦洛兰特赛事中心 - 主页</title>
+    <title>福瑞杯 - 主页</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="icon.png">
 </head>
+
 <body>
     <header>
         <nav class="navbar">
-            <div class="logo">VALORANT 赛事</div>
+            <div class="logo">
+                <img src="icon.png">
+                福瑞杯 Furry Cup
+            </div>
             <ul class="nav-links">
                 <li><a href="index.html" class="active">主页</a></li>
-                <li><a href="furycup.html">福瑞杯</a></li>
+                <li><a href="history.html">历史赛事</a></li>
                 <li><a href="teams.html">队伍</a></li>
             </ul>
         </nav>
@@ -20,22 +26,42 @@
 
     <main>
         <section class="hero">
-            <h1>欢迎来到瓦洛兰特赛事中心</h1>
+            <h1>欢迎来到福瑞杯门户网站</h1>
             <p>追踪最新比赛、队伍与赛事信息</p>
         </section>
 
         <section class="upcoming-matches">
-            <h2>即将开始的比赛</h2>
+            <h2>最近的比赛</h2>
             <div id="matches-container" class="matches-grid">
                 <!-- 由 JavaScript 动态渲染 -->
             </div>
         </section>
+
+        
+        <div class="cover"></div>
+        <div class="match-detail">
+            <button onclick="closeMatchDetail()">X</button>
+            <h1 class="match-detail-score">
+                <span id="team-1">0</span> - <span id="team-2">0</span>
+            </h1>
+            <div class="match-detail-team-1">
+                Team 1
+            </div>
+            <table border="1" class="player-list" id="team-1-list">
+            </table>
+            <div class="match-detail-team-2">
+                Team 2
+            </div>
+            <table border="1" class="player-list" id="team-2-list">
+            </table>
+        </div>
     </main>
 
     <footer>
-        <p>&copy; 2025 瓦洛兰特赛事中心</p>
+        <p>&copy; 2026 福瑞杯赛事委员会</p>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="main.js"></script>
 </body>
+
 </html>

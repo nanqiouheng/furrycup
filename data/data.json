@@ -43,7 +43,7 @@
     "teams": [
         {
             "id": 1,
-            "name": "雕长三万里",
+            "name": "海神开剥了",
             "logo": "./defaultTeam.png",
             "teammates":
                 [
@@ -56,7 +56,7 @@
         },
         {
             "id": 2,
-            "name": "海神开剥了",
+            "name": "雕长三万里",
             "logo": "./defaultTeam.png",
             "teammates":
                 [

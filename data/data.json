@@ -57,7 +57,7 @@
         {
             "id": 2,
             "name": "雕长三万里",
-            "logo": "./defaultTeam.png",
+            "logo": "./assets/team2.png",
             "teammates":
                 [
                     "k1K0",

@@ -44,7 +44,7 @@
         {
             "id": 1,
             "name": "海神开剥了",
-            "logo": "./defaultTeam.png",
+            "logo": "./assets/team1.jpg",
             "teammates":
                 [
                     "Damaiyo",

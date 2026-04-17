@@ -30,8 +30,8 @@ function renderHistoryTournament(data) {
     if (!tournaments) return;
 
     tournaments.innerHTML = data.tournaments.map(tournament => {
-        const start = new Date(tournament.startDate).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
-        const end = new Date(tournament.endDate).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
+        const start = new Date(tournament.startDate).toLocaleString('zh-CN') + " UTC+8"
+        const end = new Date(tournament.endDate).toLocaleString('zh-CN') + " UTC+8"
 
         const hasEnded = new Date(tournament.endDate) < new Date();
         return `
@@ -95,7 +95,7 @@ function renderHome(data) {
                     <span style="color:white;"> : </span>
                     <span style="color:var(--accent2);font-weight:${team2Wins ? "bold" : "normal"};">${match.scores[1]}</span>
                 </div>
-                <div class="match-time">${new Date(match.time).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</div>
+                <div class="match-time">${new Date(match.time).toLocaleString('zh-CN')} UTC+8</div>
             </div>
         `;
     }).join('');
@@ -128,7 +128,7 @@ function renderHistory(data, id) {
                     <span style="color:white;"> : </span>
                     <span style="color:var(--accent2);font-weight:${team2Wins ? "bold" : "normal"};">${match.scores[1]}</span>
                 </div>
-                <div class="match-time">${new Date(match.time).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</div>
+                <div class="match-time">${new Date(match.time).toLocaleString('zh-CN')} UTC+8</div>
             </div>
         `;
     }).join('');
